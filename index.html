@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a1a1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Discover CRM B2B</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root {
+  --bg:#fff; --bg2:#f4f4f4; --border:#e0e0e0;
+  --text:#111; --text2:#555; --text3:#999;
+  --accent:#1a1a1a; --accent2:#333;
+  --danger:#c0392b; --warn:#e67e22; --ok:#27ae60; --blue:#2471a3;
+  --radius:12px; --radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg2);color:var(--text);min-height:100vh;}
+
+/* LOGIN */
+#login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;}
+.login-card{background:var(--bg);border-radius:16px;padding:32px 28px;width:100%;max-width:360px;box-shadow:0 4px 24px rgba(0,0,0,0.10);}
+.login-logo{display:flex;justify-content:center;margin-bottom:24px;}
+.login-logo img{height:40px;object-fit:contain;}
+.login-title{font-size:17px;font-weight:600;text-align:center;margin-bottom:4px;}
+.login-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:24px;}
+.field-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;display:block;}
+.login-select{width:100%;font-size:15px;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);margin-bottom:20px;}
+.login-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:14px;font-size:15px;font-weight:600;cursor:pointer;}
+.login-btn:active{background:var(--accent2);}
+
+/* APP */
+#app{display:none;flex-direction:column;min-height:100vh;}
+.topbar{background:var(--accent);display:flex;align-items:center;justify-content:space-between;padding:12px 16px;position:sticky;top:0;z-index:100;}
+.topbar-logo{height:22px;filter:brightness(0) invert(1);object-fit:contain;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.topbar-user{font-size:12px;color:rgba(255,255,255,.85);}
+.logout-btn{background:rgba(255,255,255,.15);border:none;border-radius:6px;padding:5px 10px;font-size:12px;color:#fff;cursor:pointer;}
+
+.content{flex:1;padding:16px;max-width:680px;margin:0 auto;width:100%;}
+.section{display:none;}
+.section.active{display:block;}
+
+/* BOTTOM NAV */
+.bottom-nav{background:var(--bg);border-top:1px solid var(--border);display:flex;position:sticky;bottom:0;z-index:100;}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 8px;border:none;background:none;cursor:pointer;color:var(--text3);}
+.nav-btn i{font-size:22px;}
+.nav-btn span{font-size:10px;font-weight:500;}
+.nav-btn.active{color:var(--accent);}
+
+/* HOME */
+.greeting h2{font-size:18px;font-weight:600;margin-bottom:2px;}
+.greeting p{font-size:13px;color:var(--text2);margin-bottom:16px;}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.metric{background:var(--bg);border-radius:var(--radius);padding:14px;}
+.metric .num{font-size:28px;font-weight:700;}
+.metric .lbl{font-size:12px;color:var(--text2);margin-top:2px;}
+.metric.red .num{color:var(--danger);}
+.cta-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);padding:15px;font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px;}
+.section-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;}
+.v-card{background:var(--bg);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;}
+.v-top{display:flex;justify-content:space-between;margin-bottom:6px;}
+.v-agencia{font-size:14px;font-weight:600;}
+.v-fecha{font-size:11px;color:var(--text3);}
+.chips{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;}
+.chip-green{background:#e8f5e9;color:#2e7d32;}
+.chip-blue{background:#e3f2fd;color:#1565c0;}
+.chip-purple{background:#ede7f6;color:#4527a0;}
+.chip-amber{background:#fff8e1;color:#f57f17;}
+.chip-gray{background:#f0f0f0;color:#555;}
+
+/* FORM */
+.form-card{background:var(--bg);border-radius:var(--radius);padding:20px;}
+.form-card h3{font-size:16px;font-weight:600;margin-bottom:18px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;color:var(--text);background:var(--bg);font-family:inherit;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);}
+.field textarea{height:80px;resize:vertical;}
+.toggle-grid{display:grid;gap:8px;}
+.cols3{grid-template-columns:1fr 1fr 1fr;}
+.toggle-btn{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 4px;text-align:center;cursor:pointer;background:none;font-size:11px;font-weight:500;color:var(--text2);font-family:inherit;}
+.toggle-btn i{display:block;font-size:20px;margin-bottom:3px;}
+.sel-tipo{background:#f0f0f0;border-color:var(--accent);color:var(--accent);}
+.sel-prod{background:#e3f2fd;border-color:var(--blue);color:var(--blue);}
+.save-btn{width:100%;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:14px;font-size:16px;font-weight:600;cursor:pointer;margin-top:4px;}
+.success-msg{display:none;background:#e8f5e9;color:#2e7d32;border-radius:var(--radius-sm);padding:12px;font-size:14px;font-weight:500;margin-top:12px;text-align:center;}
+
+/* HISTORIAL */
+.filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.filter-row input,.filter-row select{flex:1;min-width:120px;font-size:13px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);}
+.export-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 14px;font-size:13px;cursor:pointer;white-space:nowrap;}
+.h-card{background:var(--bg);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;}
+.h-top{display:flex;justify-content:space-between;margin-bottom:4px;}
+.h-agencia{font-size:14px;font-weight:600;}
+.h-fecha{font-size:11px;color:var(--text3);}
+.h-com{font-size:12px;color:var(--text2);margin-bottom:6px;}
+.h-notas{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5;}
+.h-sig{font-size:12px;color:var(--blue);margin-top:4px;}
+.empty{text-align:center;color:var(--text3);padding:40px 0;font-size:14px;}
+.nav-group-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+.nav-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
+.nav-chip{border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;font-size:13px;cursor:pointer;background:none;color:var(--text2);font-family:inherit;transition:all .1s;}
+.nav-chip.sel{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500;}
+
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.d-metric{background:var(--bg);border-radius:var(--radius);padding:14px;}
+.d-metric .num{font-size:26px;font-weight:700;}
+.d-metric .lbl{font-size:12px;color:var(--text2);margin-top:2px;}
+.d-metric.red .num{color:var(--danger);}
+.d-card{background:var(--bg);border-radius:var(--radius);padding:14px;margin-bottom:12px;}
+.d-card h4{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;}
+.rep-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bg2);}
+.rep-row:last-child{border-bottom:none;}
+.rep-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.rep-name{font-size:13px;flex:1;}
+.rep-bar-wrap{width:60px;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;}
+.rep-bar{height:100%;border-radius:3px;background:var(--accent);}
+.rep-n{font-size:13px;font-weight:600;min-width:20px;text-align:right;}
+.a-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bg2);font-size:13px;}
+.a-row:last-child{border-bottom:none;}
+.a-name{flex:1;}
+.days-pill{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;white-space:nowrap;}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="https://www.discovertheworld.com/wp-content/uploads/2021/04/dtw-logo.svg"
+           onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'"
+           alt="Discover the World">
+      <span id="logo-fallback" style="display:none;font-size:18px;font-weight:700;">Discover the World</span>
+    </div>
+    <div class="login-title">CRM Comercial B2B</div>
+    <div class="login-sub">Seleccioná tu nombre para continuar</div>
+    <label class="field-label" for="sel-user">¿Quién sos?</label>
+    <select id="sel-user" class="login-select">
+      <option value="">— Seleccioná —</option>
+      <option>Mauro</option>
+      <option>Pablo</option>
+      <option>Patricio</option>
+      <option>Lucía</option>
+      <option>Micaela</option>
+      <option value="ADMIN">👤 Admin (Yami)</option>
+    </select>
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+  </div>
+</div>
+
+<!-- ═══ APP ═══ -->
+<div id="app">
+  <div class="topbar">
+    <img class="topbar-logo"
+         src="https://www.discovertheworld.com/wp-content/uploads/2021/04/dtw-logo.svg"
+         onerror="this.style.display='none'"
+         alt="Discover the World">
+    <div class="topbar-right">
+      <span class="topbar-user" id="topbar-user"></span>
+      <button class="logout-btn" onclick="doLogout()">Salir</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- HOME -->
+    <div class="section active" id="sec-home">
+      <div class="greeting">
+        <h2 id="home-hi"></h2>
+        <p id="home-date"></p>
+      </div>
+      <div class="metrics">
+        <div class="metric">
+          <div class="num" id="m-semana">0</div>
+          <div class="lbl">Mis visitas esta semana</div>
+        </div>
+        <div class="metric red">
+          <div class="num" id="m-pend">0</div>
+          <div class="lbl">Tareas esta semana</div>
+        </div>
+      </div>
+      <button class="cta-btn" onclick="goSection('nueva');setNav('nav-nueva')">
+        <i class="ti ti-plus"></i> Registrar visita
+      </button>
+      <!-- LOOKUP AGENCIA -->
+      <div style="margin-bottom:20px;">
+        <div class="section-title">🔍 Buscar agencia</div>
+        <div style="position:relative;">
+          <input type="text" id="home-ag-q" placeholder="Escribí el nombre de la agencia..."
+            autocomplete="off" oninput="homeAgInput(this)" onblur="setTimeout(()=>closeHomeSug(),150)"
+            style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:inherit;">
+          <div id="home-ag-sug" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--accent);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);z-index:200;max-height:220px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></div>
+        </div>
+      </div>
+
+      <div class="section-title">Últimas visitas</div>
+      <div id="recientes"></div>
+
+      <div id="tareas-wrap" style="margin-top:20px;">
+        <div class="section-title" style="display:flex;justify-content:space-between;align-items:center;">
+          <span>📅 Próximos pasos esta semana</span>
+          <span id="tareas-count" style="font-size:11px;color:var(--text2);"></span>
+        </div>
+        <div id="tareas-list"></div>
+      </div>
+    </div>
+
+    <!-- NUEVA VISITA -->
+    <div class="section" id="sec-nueva">
+      <div class="form-card">
+        <h3><i class="ti ti-clipboard-plus"></i> Nueva visita / contacto</h3>
+        <div class="field">
+          <label>Fecha</label>
+          <input type="date" id="f-fecha">
+        </div>
+        <div class="field">
+          <label>Agencia de viajes</label>
+          <div style="position:relative;">
+            <input type="text" id="f-agencia" placeholder="Escribí las primeras 3 letras..." autocomplete="off" oninput="agInput(this)" onblur="setTimeout(()=>closeSug(),150)">
+            <div id="ag-sug" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--accent);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);z-index:200;max-height:200px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></div>
+          </div>
+          <div id="ag-nueva-wrap" style="display:none;margin-top:8px;">
+            <span style="font-size:12px;color:var(--text2);">¿Agencia nueva? </span>
+            <button type="button" onclick="guardarAgencia()" style="font-size:12px;color:var(--blue);background:none;border:none;cursor:pointer;font-weight:600;text-decoration:underline;">Guardar esta agencia</button>
+          </div>
+        </div>
+        <!-- CONTACTO -->
+        <div class="field">
+          <label>Contacto en la agencia</label>
+          <div style="position:relative;">
+            <input type="text" id="f-contacto" placeholder="Nombre y apellido..." autocomplete="off"
+              oninput="ctcInput(this)" onblur="setTimeout(()=>closeCTC(),150)">
+            <div id="ctc-sug" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--accent);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);z-index:200;max-height:200px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></div>
+          </div>
+        </div>
+        <div id="ctc-detalle" style="display:none;">
+          <div class="field">
+            <label>Cargo</label>
+            <input type="text" id="f-ctc-cargo" placeholder="Ej: Gerente de ventas, Dueño...">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+            <div class="field" style="margin-bottom:0;">
+              <label>Email</label>
+              <input type="email" id="f-ctc-email" placeholder="email@agencia.com">
+            </div>
+            <div class="field" style="margin-bottom:0;">
+              <label>Teléfono</label>
+              <input type="tel" id="f-ctc-tel" placeholder="+54 11 ????-????">
+            </div>
+          </div>
+          <div id="ctc-nuevo-wrap" style="display:none;margin-bottom:16px;">
+            <button type="button" onclick="guardarContacto()"
+              style="font-size:12px;color:var(--blue);background:none;border:none;cursor:pointer;font-weight:600;text-decoration:underline;">
+              💾 Guardar contacto bajo esta agencia
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Tipo de contacto</label>
+          <div class="toggle-grid cols3" id="tipo-grid">
+            <button class="toggle-btn sel-tipo" onclick="selTipo(this,'Presencial')"><i class="ti ti-map-pin"></i>Presencial</button>
+            <button class="toggle-btn" onclick="selTipo(this,'Llamada')"><i class="ti ti-phone"></i>Llamada</button>
+            <button class="toggle-btn" onclick="selTipo(this,'Virtual')"><i class="ti ti-video"></i>Virtual</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Título de la actividad</label>
+          <input type="text" id="f-titulo" placeholder="Ej: Revisión de ventas, Presentación de producto...">
+        </div>
+        <div class="field">
+          <label>Producto trabajado</label>
+          <div class="toggle-grid cols3" id="prod-grid">
+            <button class="toggle-btn sel-prod" onclick="selProd(this,'Crucero')"><i class="ti ti-anchor"></i>Crucero</button>
+            <button class="toggle-btn" onclick="selProd(this,'Aéreo')"><i class="ti ti-plane"></i>Aéreo</button>
+            <button class="toggle-btn" onclick="selProd(this,'Ambos')"><i class="ti ti-stack-2"></i>Ambos</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Líneas trabajadas <span style="font-weight:400;color:var(--text3)">(seleccioná una o más)</span></label>
+          <div style="margin-bottom:8px;">
+            <div class="nav-group-label">🚢 Cruceros</div>
+            <div class="nav-chips" id="nav-cruceros">
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Discover Cruises (todas)</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Princess Cruises</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Holland America Line</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Seabourn</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Cunard</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">HX Expeditions</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Hurtigruten</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Uniworld</button>
+            </div>
+          </div>
+          <div>
+            <div class="nav-group-label">✈️ Aerolíneas</div>
+            <div class="nav-chips" id="nav-aereas">
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Discover The World (todas)</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">W2F</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Qatar Airways</button>
+              <button type="button" class="nav-chip" onclick="toggleNav(this)">Cathay Pacific</button>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Notas de la visita</label>
+          <textarea id="f-notas" placeholder="¿Qué se habló? Interés detectado, materiales entregados..."></textarea>
+        </div>
+        <div class="field">
+          <label>Próximo paso / seguimiento</label>
+          <input type="text" id="f-sig" placeholder="Ej: Enviar propuesta, llamar para confirmar...">
+        </div>
+        <div class="field">
+          <label>Fecha del próximo paso</label>
+          <input type="date" id="f-sig-fecha">
+        </div>
+        <button class="save-btn" onclick="guardar()"><i class="ti ti-check"></i> Guardar visita</button>
+        <div class="success-msg" id="ok-msg"><i class="ti ti-circle-check"></i> ¡Visita guardada!</div>
+      </div>
+    </div>
+
+    <!-- HISTORIAL -->
+    <div class="section" id="sec-historial">
+      <div class="filter-row">
+        <input type="text" id="fil-q" placeholder="Buscar agencia..." oninput="renderHist()">
+        <select id="fil-com" onchange="renderHist()">
+          <option value="">Todos</option>
+          <option>Mauro</option><option>Pablo</option><option>Patricio</option>
+          <option>Lucía</option><option>Micaela</option>
+        </select>
+        <button class="export-btn" onclick="exportCSV()"><i class="ti ti-download"></i> CSV</button>
+      </div>
+      <div id="hist-list"></div>
+    </div>
+
+
+    <!-- PERFIL AGENCIA -->
+    <div class="section" id="sec-agencia">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <button id="ag-back-btn" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:22px;padding:0;"><i class="ti ti-arrow-left"></i></button>
+        <div>
+          <div id="ag-nombre" style="font-size:18px;font-weight:700;"></div>
+          <div id="ag-stats" style="font-size:12px;color:var(--text2);margin-top:2px;"></div>
+        </div>
+      </div>
+      <div id="ag-resumen" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;"></div>
+
+      <!-- EJECUTIVO ASIGNADO -->
+      <div id="ag-ejecutivo-wrap" style="background:var(--bg);border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
+        <div style="flex:1;">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;">Ejecutivo asignado</div>
+          <select id="ag-ejecutivo-sel" onchange="guardarEjecutivo()"
+            style="width:100%;font-size:14px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-family:inherit;">
+            <option value="">— Sin asignar —</option>
+            <option>Mauro</option>
+            <option>Pablo</option>
+            <option>Patricio</option>
+            <option>Lucía</option>
+            <option>Micaela</option>
+          </select>
+        </div>
+        <div id="ag-ejecutivo-badge" style="display:none;text-align:center;">
+          <div id="ag-ejecutivo-av" style="width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin:0 auto 3px;"></div>
+          <div id="ag-ejecutivo-name" style="font-size:11px;color:var(--text2);"></div>
+        </div>
+      </div>
+
+      <!-- DIRECCIÓN -->
+      <div class="card" id="ag-dir-card">
+        <div style="font-size:11px;font-weight:600;color:var(--color-text-secondary,#555);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;">
+          <i class="ti ti-map-pin" aria-hidden="true"></i> Dirección
+        </div>
+        <input type="text" id="ag-dir-input" placeholder="Ej: Av. Corrientes 1234, CABA..."
+          onchange="guardarDireccion()"
+          style="width:100%;font-size:14px;padding:9px 11px;border:1.5px solid var(--border,#e0e0e0);border-radius:8px;font-family:inherit;background:var(--bg,#fff);color:var(--text,#111);">
+      </div>
+
+      <!-- DIRECCIÓN -->
+      <div class="card" id="ag-dir-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;"><i class="ti ti-map-pin" style="font-size:13px;"></i> Dirección</div>
+          <button type="button" id="ag-dir-edit-btn" onclick="toggleDirEdit()" style="font-size:12px;color:var(--blue);background:none;border:none;cursor:pointer;font-weight:500;">Editar</button>
+        </div>
+        <div id="ag-dir-text" style="font-size:14px;color:var(--text);"></div>
+        <input type="text" id="ag-dir-input" placeholder="Ej: Av. Corrientes 1234, CABA"
+          style="display:none;width:100%;font-size:14px;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:inherit;"
+          onblur="saveDireccion()">
+      </div>
+
+      <div class="section-title">Historial completo</div>
+      <div id="ag-historial"></div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="section" id="sec-dashboard">
+      <div class="dash-grid" id="dash-metrics"></div>
+      <div id="dash-body"></div>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn active" id="nav-home" onclick="goSection('home');setNav('nav-home')">
+      <i class="ti ti-home"></i><span>Inicio</span>
+    </button>
+    <button class="nav-btn" id="nav-nueva" onclick="goSection('nueva');setNav('nav-nueva')">
+      <i class="ti ti-plus"></i><span>Nueva</span>
+    </button>
+    <button class="nav-btn" id="nav-historial" onclick="goSection('historial');setNav('nav-historial')">
+      <i class="ti ti-list"></i><span>Historial</span>
+    </button>
+    <button class="nav-btn" id="nav-dashboard" style="display:none" onclick="goSection('dashboard');setNav('nav-dashboard')">
+      <i class="ti ti-chart-bar"></i><span>Dashboard</span>
+    </button>
+  </div>
+</div>
+
+<script>
+const KEY = 'dtw_crm_v2';
+let user = null, tipo = 'Presencial', prod = 'Crucero';
+
+const avColors = [
+  ['#e8f5e9','#2e7d32'],['#e3f2fd','#1565c0'],['#ede7f6','#4527a0'],
+  ['#fff3e0','#e65100'],['#fce4ec','#880e4f']
+];
+
+function db(){ try{ return JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){ return []; } }
+function save(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
+
+// AUTH
+function doLogin(){
+  const u = document.getElementById('sel-user').value;
+  if(!u){ alert('Seleccioná tu nombre'); return; }
+  user = u;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('topbar-user').textContent = u === 'ADMIN' ? 'Admin — Yami' : u;
+  if(u === 'ADMIN') document.getElementById('nav-dashboard').style.display = 'flex';
+  initHome();
+}
+function doLogout(){
+  user = null;
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('sel-user').value = '';
+  document.getElementById('nav-dashboard').style.display = 'none';
+  goSection('home'); setNav('nav-home');
+}
+
+// NAV
+function goSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  if(id==='home') initHome();
+  if(id==='nueva') initForm();
+  if(id==='historial') renderHist();
+  if(id==='dashboard') renderDash();
+  // agencia se renderiza desde openAgencia()
+}
+function setNav(id){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// HOME
+function initHome(){
+  const now = new Date();
+  const dias = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  document.getElementById('home-hi').textContent = 'Hola, '+(user==='ADMIN'?'Yami':user)+' 👋';
+  document.getElementById('home-date').textContent = dias[now.getDay()]+' '+now.getDate()+' de '+meses[now.getMonth()];
+
+  const data = db();
+  const sw = new Date(now); sw.setDate(now.getDate()-now.getDay()); sw.setHours(0,0,0,0);
+
+  const mine = v => user==='ADMIN' || v.comercial===user;
+  const semana = data.filter(v=>mine(v)&&new Date(v.fecha)>=sw).length;
+  const now2 = new Date(); now2.setHours(0,0,0,0);
+  const endWeek = new Date(now2); endWeek.setDate(now2.getDate() + (6 - now2.getDay()));
+  const startWeek2 = new Date(now2); startWeek2.setDate(now2.getDate() - now2.getDay());
+
+  // tareas de esta semana o vencidas
+  const tareas = data.filter(v => mine(v) && v.sig && v.sig.trim() && v.sigFecha)
+    .sort((a,b) => new Date(a.sigFecha) - new Date(b.sigFecha));
+  const tareasHoy = tareas.filter(v => {
+    const d = new Date(v.sigFecha); d.setHours(0,0,0,0);
+    return d <= endWeek;
+  });
+
+  document.getElementById('m-semana').textContent = semana;
+  document.getElementById('m-pend').textContent = tareasHoy.length;
+
+  // render tareas
+  const tEl = document.getElementById('tareas-list');
+  document.getElementById('tareas-count').textContent = tareasHoy.length ? tareasHoy.length + ' pendiente' + (tareasHoy.length!==1?'s':'') : '';
+  if(!tareasHoy.length){
+    tEl.innerHTML = '<p style="font-size:13px;color:var(--text3);padding:8px 0;">✅ Sin tareas pendientes para esta semana.</p>';
+  } else {
+    tEl.innerHTML = tareasHoy.map(v => {
+      const d = new Date(v.sigFecha); d.setHours(0,0,0,0);
+      const today = new Date(); today.setHours(0,0,0,0);
+      const diff = Math.round((d - today) / 86400000);
+      const isOverdue = diff < 0;
+      const isToday = diff === 0;
+      const isTomorrow = diff === 1;
+      const pillColor = isOverdue ? 'background:#ffebee;color:#c62828' : isToday ? 'background:#fff3e0;color:#e65100' : 'background:#e8f5e9;color:#2e7d32';
+      const pillLabel = isOverdue ? 'Vencida' : isToday ? 'Hoy' : isTomorrow ? 'Mañana' : fmt(v.sigFecha);
+      return `<div class="v-card" style="border-left:3px solid ${isOverdue?'var(--danger)':isToday?'var(--warn)':'var(--ok)'};">
+        <div class="v-top" style="margin-bottom:3px;">
+          <div style="font-size:13px;font-weight:600;">${esc(v.agencia)}</div>
+          <span style="font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;${pillColor}">${pillLabel}</span>
+        </div>
+        ${v.titulo?`<div style="font-size:12px;color:var(--text2);margin-bottom:3px;">${esc(v.titulo)}</div>`:''}
+        <div style="font-size:13px;color:var(--accent);">→ ${esc(v.sig)}</div>
+        ${v.contacto?`<div style="font-size:11px;color:var(--text3);margin-top:2px;">${esc(v.contacto)}</div>`:''}
+      </div>`;
+    }).join('');
+  }
+
+  const recent = data.filter(v=>mine(v)).sort((a,b)=>new Date(b.fecha)-new Date(a.fecha)).slice(0,5);
+  const el = document.getElementById('recientes');
+  if(!recent.length){ el.innerHTML='<p style="color:var(--text3);font-size:13px;padding:12px 0;">Aún no hay visitas registradas.</p>'; return; }
+  el.innerHTML = recent.map(v=>`
+    <div class="v-card">
+      <div class="v-top"><div class="v-agencia">${esc(v.agencia)}</div><div class="v-fecha">${fmt(v.fecha)}</div></div>
+      <div class="chips">${tbadge(v.tipo)}${pbadge(v.prod)}${v.naviera&&v.naviera.length?navBadges(v.naviera):''}${user==='ADMIN'?'<span class="chip chip-gray">'+esc(v.comercial)+'</span>':''}</div>
+    </div>`).join('');
+}
+
+// FORM
+function initForm(){
+  document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
+  ['f-agencia','f-contacto','f-ctc-cargo','f-ctc-email','f-ctc-tel','f-titulo','f-notas','f-sig','f-sig-fecha'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.nav-chip').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('ag-nueva-wrap').style.display='none';
+  document.getElementById('ag-sug').style.display='none';
+  document.getElementById('ctc-sug').style.display='none';
+  document.getElementById('ctc-detalle').style.display='none';
+  document.getElementById('ctc-nuevo-wrap').style.display='none';
+  document.getElementById('f-naviera').value='';
+  document.getElementById('ok-msg').style.display='none';
+  tipo='Presencial'; prod='Crucero';
+  document.querySelectorAll('#tipo-grid .toggle-btn').forEach((b,i)=>{ b.classList.toggle('sel-tipo',i===0); });
+  document.querySelectorAll('#prod-grid .toggle-btn').forEach((b,i)=>{ b.classList.toggle('sel-prod',i===0); });
+}
+function selTipo(el,v){ tipo=v; document.querySelectorAll('#tipo-grid .toggle-btn').forEach(b=>b.classList.remove('sel-tipo')); el.classList.add('sel-tipo'); }
+function selProd(el,v){ prod=v; document.querySelectorAll('#prod-grid .toggle-btn').forEach(b=>b.classList.remove('sel-prod')); el.classList.add('sel-prod'); }
+
+function guardar(){
+  const ag = document.getElementById('f-agencia').value.trim();
+  if(!ag){ alert('Ingresá el nombre de la agencia'); return; }
+  const v = {
+    id: Date.now(),
+    fecha: document.getElementById('f-fecha').value,
+    comercial: user==='ADMIN'?'Admin':user,
+    agencia: ag,
+    contacto: document.getElementById('f-contacto').value.trim(),
+    tipo, prod,
+    naviera: getNavieras(),
+    titulo: document.getElementById('f-titulo').value.trim(),
+    notas: document.getElementById('f-notas').value.trim(),
+    sig: document.getElementById('f-sig').value.trim(),
+    sigFecha: document.getElementById('f-sig-fecha').value,
+    ctcEmail: document.getElementById('f-ctc-email').value.trim(),
+    ctcTel: document.getElementById('f-ctc-tel').value.trim(),
+  };
+  const d=db(); d.unshift(v); save(d);
+  document.getElementById('ok-msg').style.display='block';
+  setTimeout(()=>{ document.getElementById('ok-msg').style.display='none'; initForm(); }, 2000);
+}
+
+// HISTORIAL
+function renderHist(){
+  window._agBackSection = 'historial';
+  window._agBackNav = 'nav-historial';
+  const q = document.getElementById('fil-q').value.toLowerCase();
+  const com = document.getElementById('fil-com').value;
+  const data = db().filter(v=>
+    (!q||v.agencia.toLowerCase().includes(q)||(v.contacto||'').toLowerCase().includes(q))&&
+    (!com||v.comercial===com)
+  ).sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
+  const el = document.getElementById('hist-list');
+  if(!data.length){ el.innerHTML='<div class="empty">No hay visitas registradas.</div>'; return; }
+  el.innerHTML = data.map(v=>`
+    <div class="h-card">
+      <div class="h-top">
+        <div class="h-agencia" onclick="openAgencia('${esc(v.agencia).replace(/'/g,"\\'")}')">
+          ${esc(v.agencia)} <i class="ti ti-chevron-right" style="font-size:12px;color:var(--text3);"></i>
+        </div>
+        <div class="h-fecha">${fmt(v.fecha)}</div>
+      </div>
+      ${v.titulo?`<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:4px;">${esc(v.titulo)}</div>`:''}
+      <div class="h-com"><i class="ti ti-user" style="font-size:11px"></i> ${esc(v.comercial)} · ${esc(v.contacto||'Sin contacto')}</div>
+      ${(v.ctcEmail||v.ctcTel)?`<div style="font-size:11px;color:var(--text3);margin-bottom:5px;">${[v.ctcEmail,v.ctcTel].filter(Boolean).join(' · ')}</div>`:''}
+      <div class="chips">${tbadge(v.tipo)}${pbadge(v.prod)}${v.naviera&&v.naviera.length?navBadges(v.naviera):''}</div>
+      ${v.notas?'<div class="h-notas">📝 '+esc(v.notas)+'</div>':''}
+      ${v.sig?`<div class="h-sig">→ ${esc(v.sig)}${v.sigFecha?' <span style="font-size:11px;background:#e3f2fd;color:#1565c0;padding:1px 7px;border-radius:10px;font-weight:600;margin-left:4px;">📅 ${fmt(v.sigFecha)}</span>':''}</div>`:''}
+    </div>`).join('');
+}
+
+// DASHBOARD
+function renderDash(){
+  const data = db();
+  const now = new Date();
+  const sw = new Date(now); sw.setDate(now.getDate()-now.getDay()); sw.setHours(0,0,0,0);
+  const coms = ['Mauro','Pablo','Patricio','Lucía','Micaela'];
+  const semana = data.filter(v=>new Date(v.fecha)>=sw).length;
+  const agSet = new Set(data.map(v=>v.agencia));
+
+  // Por comercial
+  const porCom = coms.map((c,i)=>({name:c,n:data.filter(v=>v.comercial===c).length,i})).sort((a,b)=>b.n-a.n);
+  const mx = porCom[0]?.n||1;
+
+  // Top agencias
+  const agCount = {};
+  data.forEach(v=>{ agCount[v.agencia]=(agCount[v.agencia]||0)+1; });
+  const topAg = Object.entries(agCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+
+  // Sin visitar
+  const lastVisit = {};
+  data.forEach(v=>{ if(!lastVisit[v.agencia]||new Date(v.fecha)>new Date(lastVisit[v.agencia])) lastVisit[v.agencia]=v.fecha; });
+  const sinVisitar = Object.entries(lastVisit)
+    .map(([ag,f])=>({ag,dias:Math.floor((now-new Date(f))/86400000)}))
+    .filter(x=>x.dias>=20).sort((a,b)=>b.dias-a.dias).slice(0,6);
+
+  document.getElementById('dash-metrics').innerHTML = `
+    <div class="d-metric"><div class="num">${semana}</div><div class="lbl">Visitas esta semana</div></div>
+    <div class="d-metric"><div class="num">${agSet.size}</div><div class="lbl">Agencias contactadas</div></div>
+    <div class="d-metric"><div class="num">${data.length}</div><div class="lbl">Total visitas</div></div>
+    <div class="d-metric red"><div class="num">${sinVisitar.length}</div><div class="lbl">Sin visitar +20 días</div></div>
+  `;
+
+  document.getElementById('dash-body').innerHTML = `
+    <div class="d-card">
+      <h4>Actividad por comercial</h4>
+      ${porCom.map(c=>`
+        <div class="rep-row">
+          <div class="rep-av" style="background:${avColors[c.i%5][0]};color:${avColors[c.i%5][1]}">${c.name.slice(0,2).toUpperCase()}</div>
+          <div class="rep-name">${c.name}</div>
+          <div class="rep-bar-wrap"><div class="rep-bar" style="width:${Math.round(c.n/mx*100)}%"></div></div>
+          <div class="rep-n">${c.n}</div>
+        </div>`).join('')}
+    </div>
+    <div class="d-card">
+      <h4>Agencias más visitadas</h4>
+      ${topAg.length?topAg.map(([ag,n])=>`
+        <div class="a-row">
+          <div class="a-name">${esc(ag)}</div>
+          <span class="days-pill" style="background:#e3f2fd;color:#1565c0">${n} visitas</span>
+        </div>`).join(''):'<p class="empty" style="padding:12px 0">Sin datos aún.</p>'}
+    </div>
+    <div class="d-card">
+      <h4>⚠️ Agencias sin visitar</h4>
+      ${sinVisitar.length?sinVisitar.map(x=>`
+        <div class="a-row">
+          <div class="a-name">${esc(x.ag)}</div>
+          <span class="days-pill" style="background:${x.dias>30?'#ffebee;color:#c62828':'#fff8e1;color:#f57f17'}">${x.dias} días</span>
+        </div>`).join(''):'<p style="font-size:13px;color:var(--ok);padding:8px 0">✅ Todo al día — ninguna supera los 20 días.</p>'}
+    </div>
+  `;
+}
+
+// HOME AGENCY LOOKUP
+function homeAgInput(el){
+  const q = el.value.trim();
+  const sug = document.getElementById('home-ag-sug');
+  if(q.length < 2){ sug.style.display='none'; return; }
+  const ags = loadAgencias();
+  // also include agencies from visit history
+  const histAgs = [...new Set(db().map(v=>v.agencia))];
+  const allAgs = [...new Set([...ags, ...histAgs])].sort((a,b)=>a.localeCompare(b,'es'));
+  const matches = allAgs.filter(a=>a.toLowerCase().includes(q.toLowerCase()));
+  if(!matches.length){ sug.style.display='none'; return; }
+  sug.innerHTML = matches.map(a=>`
+    <div onclick="selectHomeAg('${a.replace(/'/g,"\\'")}')"
+      style="padding:11px 14px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--border);"
+      onmouseenter="this.style.background='var(--bg2)'" onmouseleave="this.style.background=''">
+      <i class="ti ti-building-store" style="font-size:13px;color:var(--text3);margin-right:6px;"></i>${a}
+    </div>`).join('');
+  sug.style.display='block';
+}
+function closeHomeSug(){ document.getElementById('home-ag-sug').style.display='none'; }
+function selectHomeAg(nombre){
+  closeHomeSug();
+  document.getElementById('home-ag-q').value='';
+  // store which section to go back to
+  window._agBackSection = 'home';
+  window._agBackNav = 'nav-home';
+  openAgencia(nombre);
+}
+
+// EJECUTIVO ASIGNADO
+const EJ_KEY = 'dtw_ejecutivos_v1';
+function loadEjecutivos(){ try{ return JSON.parse(localStorage.getItem(EJ_KEY))||{}; }catch(e){ return {}; } }
+function saveEjecutivos(d){ localStorage.setItem(EJ_KEY, JSON.stringify(d)); }
+
+const ejColors = {
+  'Mauro':   ['#e8f5e9','#2e7d32'],
+  'Pablo':   ['#e3f2fd','#1565c0'],
+  'Patricio':['#ede7f6','#4527a0'],
+  'Lucía':   ['#fff3e0','#e65100'],
+  'Micaela': ['#fce4ec','#880e4f'],
+};
+
+function guardarEjecutivo(){
+  const ag = document.getElementById('ag-nombre').textContent;
+  const ej = document.getElementById('ag-ejecutivo-sel').value;
+  const all = loadEjecutivos();
+  if(ej) all[ag]=ej; else delete all[ag];
+  saveEjecutivos(all);
+  renderEjecutivoBadge(ej);
+}
+
+function renderEjecutivoBadge(ej){
+  const badge = document.getElementById('ag-ejecutivo-badge');
+  const av = document.getElementById('ag-ejecutivo-av');
+  const nm = document.getElementById('ag-ejecutivo-name');
+  if(ej){
+    const colors = ejColors[ej]||['#f0f0f0','#333'];
+    av.style.background = colors[0];
+    av.style.color = colors[1];
+    av.textContent = ej.slice(0,2).toUpperCase();
+    nm.textContent = ej;
+    badge.style.display='block';
+  } else {
+    badge.style.display='none';
+  }
+}
+
+// DIRECCION AGENCIA
+const DIR_KEY = 'dtw_direcciones_v1';
+function loadDirecciones(){ try{ return JSON.parse(localStorage.getItem(DIR_KEY))||{}; }catch(e){ return {}; } }
+function saveDirecciones(d){ localStorage.setItem(DIR_KEY, JSON.stringify(d)); }
+
+function toggleDirEdit(){
+  const txt = document.getElementById('ag-dir-text');
+  const inp = document.getElementById('ag-dir-input');
+  const btn = document.getElementById('ag-dir-edit-btn');
+  if(inp.style.display==='none'){
+    inp.value = txt.textContent==='Sin dirección cargada' ? '' : txt.textContent;
+    txt.style.display='none';
+    inp.style.display='block';
+    inp.focus();
+    btn.textContent='Listo';
+  } else {
+    saveDireccion();
+  }
+}
+
+function saveDireccion(){
+  const ag = document.getElementById('ag-nombre').textContent;
+  const val = document.getElementById('ag-dir-input').value.trim();
+  const all = loadDirecciones();
+  if(val) all[ag]=val; else delete all[ag];
+  saveDirecciones(all);
+  const txt = document.getElementById('ag-dir-text');
+  txt.textContent = val || 'Sin dirección cargada';
+  txt.style.color = val ? '' : 'var(--text3)';
+  document.getElementById('ag-dir-input').style.display='none';
+  txt.style.display='block';
+  document.getElementById('ag-dir-edit-btn').textContent='Editar';
+}
+
+// PERFIL AGENCIA
+function openAgencia(nombre){
+  const data = db().filter(v=>v.agencia===nombre).sort((a,b)=>new Date(b.fecha)-new Date(a.fecha));
+
+  // back button — vuelve a donde vino
+  const backSec = window._agBackSection || 'historial';
+  const backNav = window._agBackNav || 'nav-historial';
+  window._agBackSection = null; window._agBackNav = null;
+  document.getElementById('ag-back-btn').onclick = ()=>{ goSection(backSec); setNav(backNav); };
+
+  document.getElementById('ag-nombre').textContent = nombre;
+
+  // stats
+  const coms = [...new Set(data.map(v=>v.comercial))];
+  const ultima = data[0] ? fmt(data[0].fecha) : '—';
+  const diasSinVisita = data[0] ? Math.floor((new Date()-new Date(data[0].fecha))/86400000) : null;
+  document.getElementById('ag-stats').textContent =
+    data.length + ' visitas' +
+    (diasSinVisita!==null?' · última: '+ultima:'');
+
+  // ejecutivo asignado
+  const allEj = loadEjecutivos();
+  const ejActual = allEj[nombre]||'';
+  document.getElementById('ag-ejecutivo-sel').value = ejActual;
+  renderEjecutivoBadge(ejActual);
+
+  // direccion
+  const allDir = loadDirecciones();
+  const dirVal = allDir[nombre]||'';
+  const dirTxt = document.getElementById('ag-dir-text');
+  dirTxt.textContent = dirVal || 'Sin dirección cargada';
+  dirTxt.style.color = dirVal ? '' : 'var(--text3,#999)';
+  document.getElementById('ag-dir-input').style.display='none';
+  dirTxt.style.display='block';
+  document.getElementById('ag-dir-edit-btn').textContent='Editar';
+
+  // resumen chips
+  const tipos = {Presencial:0,Llamada:0,Virtual:0};
+  const prods = {Crucero:0,'Aéreo':0,Ambos:0};
+  data.forEach(v=>{ if(tipos[v.tipo]!==undefined)tipos[v.tipo]++; if(prods[v.prod]!==undefined)prods[v.prod]++; });
+  const ctcCount = (loadContactos()[nombre]||[]).length;
+  const tareasAg = data.filter(v=>v.sig&&v.sig.trim()&&v.sigFecha).length;
+  const warnStyle = diasSinVisita>10 ? 'color:#854F0B;' : '';
+  document.getElementById('ag-resumen').innerHTML = `
+    <div class="metric" style="padding:10px;">
+      <div class="num" style="font-size:22px;">${data.length}</div>
+      <div class="lbl">Visitas totales</div>
+    </div>
+    <div class="metric" style="padding:10px;">
+      <div class="num" style="font-size:22px;${warnStyle}">${diasSinVisita!==null?diasSinVisita+'d':'—'}</div>
+      <div class="lbl">Días sin visita</div>
+    </div>
+    <div class="metric" style="padding:10px;">
+      <div class="num" style="font-size:22px;">${tareasAg}</div>
+      <div class="lbl">Tareas pendientes</div>
+    </div>
+    <div class="metric" style="padding:10px;">
+      <div class="num" style="font-size:22px;">${ctcCount}</div>
+      <div class="lbl">Contactos</div>
+    </div>
+  `;
+
+  // historial detallado
+  if(!data.length){
+    document.getElementById('ag-historial').innerHTML='<div class="empty">Sin visitas registradas.</div>';
+  } else {
+    document.getElementById('ag-historial').innerHTML = data.map(v=>`
+      <div class="h-card" style="border-left:3px solid var(--accent);padding-left:12px;">
+        <div class="h-top">
+          <div style="font-size:13px;font-weight:600;">${fmt(v.fecha)}</div>
+          <div style="font-size:12px;color:var(--text2);">${esc(v.comercial)}</div>
+        </div>
+        ${v.titulo?`<div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:4px;">${esc(v.titulo)}</div>`:''}
+        <div class="h-com">${esc(v.contacto||'Sin contacto')}</div>
+        <div class="chips" style="margin:5px 0;">${tbadge(v.tipo)}${pbadge(v.prod)}${v.naviera&&v.naviera.length?navBadges(v.naviera):''}</div>
+        ${v.notas?'<div class="h-notas">📝 '+esc(v.notas)+'</div>':''}
+        ${v.sig?`<div class="h-sig">→ ${esc(v.sig)}${v.sigFecha?' <span style="font-size:11px;background:#e3f2fd;color:#1565c0;padding:1px 7px;border-radius:10px;font-weight:600;margin-left:4px;">📅 ${fmt(v.sigFecha)}</span>':''}</div>`:''}
+      </div>`).join('');
+  }
+
+  // Contactos conocidos de esta agencia
+  const allCtc = loadContactos();
+  const ctcAg = allCtc[nombre]||[];
+  const ctcHTML = ctcAg.length ? `
+    <div class="d-card" style="margin-bottom:14px;">
+      <h4><i class="ti ti-address-book"></i> Contactos en ${esc(nombre)}</h4>
+      ${ctcAg.map(c=>`
+        <div class="a-row">
+          <div>
+            <div style="font-size:13px;font-weight:500;">${esc(c.nombre)}${c.cargo?` <span style="font-size:11px;color:var(--text2);font-weight:400;">· ${esc(c.cargo)}</span>`:''}</div>
+            <div style="font-size:12px;color:var(--text2);">${[c.email,c.tel].filter(Boolean).join(' · ')||'Sin datos de contacto'}</div>
+          </div>
+        </div>`).join('')}
+    </div>` : '';
+  document.getElementById('ag-historial').insertAdjacentHTML('beforebegin', ctcHTML);
+
+  // mostrar sección
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-agencia').classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+}
+
+// EXPORT
+function exportCSV(){
+  const data = db();
+  const hdr = ['Fecha','Comercial','Agencia','Contacto','Email','Teléfono','Título','Tipo','Producto','Naviera/Aerolínea','Notas','Seguimiento','Fecha Próx. Paso'];
+  const rows = data.map(v=>[v.fecha,v.comercial,v.agencia,v.contacto,v.ctcEmail,v.ctcTel,v.titulo,v.tipo,v.prod,(Array.isArray(v.naviera)?v.naviera.join(', '):v.naviera||''),v.notas,v.sig,v.sigFecha]
+    .map(c=>'"'+(c||'').replace(/"/g,'""')+'"').join(','));
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent([hdr.join(','),...rows].join('\n'));
+  a.download='visitas_dtw_'+new Date().toISOString().split('T')[0]+'.csv';
+  a.click();
+}
+
+// CONTACTOS AUTOCOMPLETE
+const CTC_KEY = 'dtw_contactos_v1';
+
+function loadContactos(agencia){
+  try{
+    const all = JSON.parse(localStorage.getItem(CTC_KEY))||{};
+    return agencia ? (all[agencia]||[]) : all;
+  }catch(e){ return agencia ? [] : {}; }
+}
+function saveContactos(all){ localStorage.setItem(CTC_KEY, JSON.stringify(all)); }
+
+function ctcInput(el){
+  const q = el.value.trim();
+  const sug = document.getElementById('ctc-sug');
+  const detalle = document.getElementById('ctc-detalle');
+  const nuevoWrap = document.getElementById('ctc-nuevo-wrap');
+  const agencia = document.getElementById('f-agencia').value.trim();
+
+  // always show detalle when typing
+  detalle.style.display = q.length > 0 ? 'block' : 'none';
+
+  if(q.length < 2){ sug.style.display='none'; nuevoWrap.style.display='none'; return; }
+
+  const contactos = loadContactos(agencia);
+  const matches = contactos.filter(c=>c.nombre.toLowerCase().includes(q.toLowerCase()));
+  const exactMatch = contactos.some(c=>c.nombre.toLowerCase()===q.toLowerCase());
+
+  nuevoWrap.style.display = (!exactMatch && q.length>=2) ? 'block' : 'none';
+
+  if(!matches.length){ sug.style.display='none'; return; }
+
+  sug.innerHTML = matches.map(c=>`
+    <div onclick="selectCTC(${JSON.stringify(c).replace(/"/g,'&quot;')})"
+         style="padding:10px 13px;cursor:pointer;border-bottom:1px solid var(--border);"
+         onmouseenter="this.style.background='var(--bg2)'" onmouseleave="this.style.background=''">
+      <div style="font-size:14px;font-weight:500;">${esc(c.nombre)}</div>
+      <div style="font-size:12px;color:var(--text2);">${[c.cargo,c.email,c.tel].filter(Boolean).join(' · ')}</div>
+    </div>`).join('');
+  sug.style.display='block';
+}
+
+function selectCTC(c){
+  document.getElementById('f-contacto').value = c.nombre;
+  document.getElementById('f-ctc-cargo').value = c.cargo||'';
+  document.getElementById('f-ctc-cargo').value = c.cargo||'';
+  document.getElementById('f-ctc-email').value = c.email||'';
+  document.getElementById('f-ctc-tel').value = c.tel||'';
+  document.getElementById('ctc-detalle').style.display='block';
+  document.getElementById('ctc-nuevo-wrap').style.display='none';
+  closeCTC();
+}
+function closeCTC(){ document.getElementById('ctc-sug').style.display='none'; }
+
+function guardarContacto(){
+  const agencia = document.getElementById('f-agencia').value.trim();
+  const nombre = document.getElementById('f-contacto').value.trim();
+  if(!agencia){ alert('Primero seleccioná la agencia'); return; }
+  if(!nombre){ alert('Ingresá el nombre del contacto'); return; }
+  const email = document.getElementById('f-ctc-email').value.trim();
+  const tel = document.getElementById('f-ctc-tel').value.trim();
+  const all = loadContactos();
+  if(!all[agencia]) all[agencia]=[];
+  const existe = all[agencia].some(c=>c.nombre.toLowerCase()===nombre.toLowerCase());
+  if(!existe){
+    const cargo = document.getElementById('f-ctc-cargo').value.trim();
+    all[agencia].push({nombre, cargo, email, tel});
+    saveContactos(all);
+  }
+  const btn = document.querySelector('#ctc-nuevo-wrap button');
+  btn.textContent='✅ Contacto guardado';
+  document.getElementById('ctc-nuevo-wrap').style.display='none';
+  setTimeout(()=>{ btn.textContent='💾 Guardar contacto bajo esta agencia'; },2000);
+}
+
+// AGENCIAS AUTOCOMPLETE
+const AG_KEY = 'dtw_agencias_v1';
+const AG_BASE = ['Tucano','Despegar','Aero','Organfur','Crucero.com','Cruzando Mares'];
+
+function loadAgencias(){
+  try{ const s=JSON.parse(localStorage.getItem(AG_KEY)); return s&&s.length?s:AG_BASE.slice(); }
+  catch(e){ return AG_BASE.slice(); }
+}
+function saveAgencias(a){ localStorage.setItem(AG_KEY, JSON.stringify(a)); }
+
+function agInput(el){
+  const q = el.value.trim();
+  const wrap = document.getElementById('ag-nueva-wrap');
+  const sug = document.getElementById('ag-sug');
+  if(q.length < 2){ sug.style.display='none'; wrap.style.display='none'; return; }
+  const ags = loadAgencias();
+  const matches = ags.filter(a=>a.toLowerCase().includes(q.toLowerCase()));
+  const exactMatch = ags.some(a=>a.toLowerCase()===q.toLowerCase());
+  wrap.style.display = (!exactMatch && q.length>=3) ? 'block' : 'none';
+  if(!matches.length){ sug.style.display='none'; return; }
+  sug.innerHTML = matches.map(a=>`
+    <div onclick="selectAg('${a.replace(/'/g,"\\'")}');closeSug()"
+         style="padding:10px 13px;font-size:14px;cursor:pointer;border-bottom:1px solid var(--border);"
+         onmouseenter="this.style.background='var(--bg2)'" onmouseleave="this.style.background=''">${a}</div>
+  `).join('');
+  sug.style.display='block';
+}
+
+function selectAg(val){
+  document.getElementById('f-agencia').value = val;
+  document.getElementById('ag-nueva-wrap').style.display='none';
+}
+function closeSug(){ document.getElementById('ag-sug').style.display='none'; }
+
+function guardarAgencia(){
+  const val = document.getElementById('f-agencia').value.trim();
+  if(!val) return;
+  const ags = loadAgencias();
+  if(!ags.some(a=>a.toLowerCase()===val.toLowerCase())){
+    ags.push(val);
+    ags.sort((a,b)=>a.localeCompare(b,'es'));
+    saveAgencias(ags);
+    document.getElementById('ag-nueva-wrap').style.display='none';
+    // feedback visual
+    const btn = document.querySelector('#ag-nueva-wrap button');
+    const orig = btn.textContent;
+    btn.textContent = '✅ Guardada';
+    setTimeout(()=>btn.textContent=orig, 1500);
+  }
+}
+
+// NAVIERA MULTI-SELECT
+function toggleNav(el){
+  // if "todas" clicked, deselect others in same group
+  const isTodas = el.textContent.includes('todas');
+  const group = el.closest('.nav-chips');
+  if(isTodas){
+    group.querySelectorAll('.nav-chip').forEach(b=>b.classList.remove('sel'));
+    el.classList.add('sel');
+  } else {
+    // deselect "todas" if individual selected
+    group.querySelectorAll('.nav-chip').forEach(b=>{
+      if(b.textContent.includes('todas')) b.classList.remove('sel');
+    });
+    el.classList.toggle('sel');
+  }
+}
+
+function getNavieras(){
+  const sel = [];
+  document.querySelectorAll('.nav-chip.sel').forEach(b=>sel.push(b.textContent.trim()));
+  return sel;
+}
+
+function navBadges(naviera){
+  const arr = Array.isArray(naviera) ? naviera : [naviera];
+  return arr.filter(Boolean).map(n=>`<span class="chip chip-amber">${esc(n)}</span>`).join('');
+}
+
+// HELPERS
+function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+function fmt(f){ if(!f)return ''; const[y,m,d]=f.split('-'); return d+'/'+m+'/'+y; }
+function tbadge(t){
+  if(t==='Presencial') return '<span class="chip chip-green">Presencial</span>';
+  if(t==='Llamada') return '<span class="chip chip-blue">Llamada</span>';
+  return '<span class="chip chip-purple">Virtual</span>';
+}
+function pbadge(p){
+  if(p==='Crucero') return '<span class="chip chip-blue">Crucero</span>';
+  if(p==='Aéreo') return '<span class="chip chip-green">Aéreo</span>';
+  return '<span class="chip chip-purple">Ambos</span>';
+}
+</script>
+</body>
+</html>
