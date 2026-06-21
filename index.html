@@ -421,6 +421,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <script>
 const KEY = 'dtw_crm_v2';
+const PA_URL = 'https://default0e0409b6b9754f37abaf0d2f587645.d6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/60cd4a510fc94144988b0fbb7f765973/triggers/manual/paths/invoke?api-version=1';
 let user = null, tipo = 'Presencial', prod = 'Crucero';
 
 const avColors = [
@@ -570,6 +571,13 @@ function guardar(){
   };
   const d=db(); d.unshift(v); save(d);
   document.getElementById('ok-msg').style.display='block';
+  // Enviar a Power Automate → Excel
+  const payload = Object.assign({}, v, { naviera: Array.isArray(v.naviera) ? v.naviera.join(', ') : v.naviera });
+  fetch(PA_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(e => console.warn('Power Automate:', e));
   setTimeout(()=>{ document.getElementById('ok-msg').style.display='none'; initForm(); }, 2000);
 }
 
