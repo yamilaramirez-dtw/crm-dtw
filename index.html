@@ -570,15 +570,25 @@ function guardar(){
     ctcTel: document.getElementById('f-ctc-tel').value.trim(),
   };
   const d=db(); d.unshift(v); save(d);
+  // Guardar agencia para volver al perfil
+  const _agGuardada = ag;
   document.getElementById('ok-msg').style.display='block';
-  // Enviar a Power Automate → Excel
+  // Enviar a Power Automate via no-cors
   const payload = Object.assign({}, v, { naviera: Array.isArray(v.naviera) ? v.naviera.join(', ') : v.naviera });
   fetch(PA_URL, {
     method: 'POST',
+    mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   }).catch(e => console.warn('Power Automate:', e));
-  setTimeout(()=>{ document.getElementById('ok-msg').style.display='none'; initForm(); }, 2000);
+  setTimeout(()=>{
+    document.getElementById('ok-msg').style.display='none';
+    initForm();
+    // Volver al perfil de la agencia recién cargada
+    window._agBackSection = 'nueva';
+    window._agBackNav = 'nav-nueva';
+    openAgencia(_agGuardada);
+  }, 1800);
 }
 
 // HISTORIAL
