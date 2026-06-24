@@ -575,10 +575,15 @@ function guardar(){
   document.getElementById('ok-msg').style.display='block';
   // Enviar a Power Automate via no-cors
   const payload = Object.assign({}, v, { naviera: Array.isArray(v.naviera) ? v.naviera.join(', ') : v.naviera });
+  const params = new URLSearchParams();
+  Object.keys(payload).forEach(k => {
+    const v = payload[k];
+    params.append(k, v !== undefined && v !== null ? String(v) : '');
+  });
   fetch(PA_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params.toString()
   }).then(r => console.log('Make OK:', r.status)).catch(e => console.warn('Make error:', e));
   setTimeout(()=>{
     document.getElementById('ok-msg').style.display='none';
